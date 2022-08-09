@@ -13,7 +13,7 @@ The packaging of viruses is prohibited and is a criminal offence<br>
 <h1>Usage:</h1>
 For Command line:<br>
 ----------------------<br>
-python -m pack_ci.py -f <file><br>
+python -m pack_ci.py -f (file)<br>
 (-a choose algoritm (is optional)<br>
 Can be chosen:<br>
 bz2<br>
