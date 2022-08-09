@@ -20,6 +20,12 @@ bz2
 gzip
 zlib
 lzma
+-----------
+```
+Open pack_ui.py
+and write file,
+wait and its all!
+-----------
 ```
 <h1>Screenshots:</h1>
 <img src="https://github.com/KDSS-Research/WavyPacker/blob/main/.github/video.png?raw=true">
