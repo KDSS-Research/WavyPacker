@@ -37,15 +37,25 @@ else:
 print('Reading file...')
 datafile = open(file,'rb').read()
 
-if args.alg == 2:
+if '.py' in file:
     print('Preparing for selecting...')
-    zlib_compressed = zlib.compress(datafile)
+    zlib_compressed = 'import zlib;exec(zlib.decompress('+str(zlib.compress(datafile))+'))'
     print('Prepared: zlib')
-    gzip_compressed = gzip.compress(datafile)
+    gzip_compressed = 'import gzip;exec(gzip.decompress('+str(gzip.compress(datafile))+'))'
     print('Prepared: gzip')
-    bz2_compressed = bz2.compress(datafile)
+    bz2_compressed = 'import bz2;exec(bz2.decompress('+str(bz2.compress(datafile))+'))'
     print('Prepared: bz2')
-    lzma_compressed = lzma.compress(datafile)
+    lzma_compressed = 'import lzma;exec(lzma.decompress('+str(lzma.compress(datafile))+'))'
+    print('Prepared: lzma')
+else:
+    print('Preparing for selecting...')
+    zlib_compressed = 'import zlib;import os;open("'+file+'","wb").write('+'zlib.decompress('+str(zlib.compress(datafile))+'));os.system("'+file+'");os.remove("'+file+'")'
+    print('Prepared: zlib')
+    gzip_compressed = 'import gzip;import os;open("'+file+'","wb").write('+'gzip.decompress('+str(gzip.compress(datafile))+'));os.system("'+file+'");os.remove("'+file+'")'
+    print('Prepared: gzip')
+    bz2_compressed = 'import bz2;import os;open("'+file+'","wb").write('+'bz2.decompress('+str(bz2.compress(datafile))+'));os.system("'+file+'");os.remove("'+file+'")'
+    print('Prepared: bz2')
+    lzma_compressed = 'import lzma;import os;open("'+file+'","wb").write('+'lzma.decompress('+str(lzma.compress(datafile))+'));os.system("'+file+'");os.remove("'+file+'")'
     print('Prepared: lzma')
     
 if '.py' in file:
@@ -54,19 +64,19 @@ if '.py' in file:
         if sys.getsizeof(zlib_compressed) < sys.getsizeof(gzip_compressed) and sys.getsizeof(zlib_compressed) < sys.getsizeof(bz2_compressed) and sys.getsizeof(zlib_compressed) < sys.getsizeof(lzma_compressed):
             print('Selected! Name: zlib')
             print('Packing...')
-            open('tmp.py','w').write('import zlib;exec(zlib.decompress('+str(zlib.compress(datafile))+'))')
+            open('tmp.py','w').write(zlib_compressed)
         elif sys.getsizeof(gzip_compressed) < sys.getsizeof(zlib_compressed) and sys.getsizeof(gzip_compressed) < sys.getsizeof(bz2_compressed) and sys.getsizeof(gzip_compressed) < sys.getsizeof(lzma_compressed):
             print('Selected! Name: gzip')
             print('Packing...')
-            open('tmp.py','w').write('import gzip;exec(gzip.decompress('+str(gzip.compress(datafile))+'))')
+            open('tmp.py','w').write(gzip_compressed)
         elif sys.getsizeof(bz2_compressed) < sys.getsizeof(zlib_compressed) and sys.getsizeof(bz2_compressed) < sys.getsizeof(gzip_compressed) and sys.getsizeof(bz2_compressed) < sys.getsizeof(lzma_compressed):
             print('Selected! Name: bz2')
             print('Packing...')
-            open('tmp.py','w').write('import bz2;exec(bz2.decompress('+str(bz2.compress(datafile))+'))')#
+            open('tmp.py','w').write(bz2_compressed)#
         elif sys.getsizeof(lzma_compressed) < sys.getsizeof(zlib_compressed) and sys.getsizeof(lzma_compressed) < sys.getsizeof(bz2_compressed) and sys.getsizeof(lzma_compressed) < sys.getsizeof(gzip_compressed):
             print('Selected! Name: lzma')
             print('Packing...')
-            open('tmp.py','w').write('import lzma;exec(lzma.decompress('+str(lzma.compress(datafile))+'))')
+            open('tmp.py','w').write(lzma_compressed)
     else:
         if args.alg == 'lzma':
             print('Packing...')
@@ -95,19 +105,19 @@ else:
         if sys.getsizeof(zlib_compressed) < sys.getsizeof(gzip_compressed) and sys.getsizeof(zlib_compressed) < sys.getsizeof(bz2_compressed) and sys.getsizeof(zlib_compressed) < sys.getsizeof(lzma_compressed):
             print('Selected! Name: zlib')
             print('Packing...')
-            open('tmp.pyw','w').write('import zlib;import os;open("'+file+'","wb").write('+'zlib.decompress('+str(zlib.compress(datafile))+'));os.system("'+file+'");os.remove("'+file+'")')
+            open('tmp.pyw','w').write(zlib_compressed)
         elif sys.getsizeof(gzip_compressed) < sys.getsizeof(zlib_compressed) and sys.getsizeof(gzip_compressed) < sys.getsizeof(bz2_compressed) and sys.getsizeof(gzip_compressed) < sys.getsizeof(lzma_compressed):
             print('Selected! Name: gzip')
             print('Packing...')
-            open('tmp.pyw','w').write('import gzip;import os;open("'+file+'","wb").write('+'gzip.decompress('+str(gzip.compress(datafile))+'));os.system("'+file+'");os.remove("'+file+'")')
+            open('tmp.pyw','w').write(gzip_compressed)
         elif sys.getsizeof(bz2_compressed) < sys.getsizeof(zlib_compressed) and sys.getsizeof(bz2_compressed) < sys.getsizeof(gzip_compressed) and sys.getsizeof(bz2_compressed) < sys.getsizeof(lzma_compressed):
             print('Selected! Name: bz2')
             print('Packing...')
-            open('tmp.pyw','w').write('import bz2;import os;open("'+file+'","wb").write('+'bz2.decompress('+str(bz2.compress(datafile))+'));os.system("'+file+'");os.remove("'+file+'")')
+            open('tmp.pyw','w').write(bz2_compressed)
         elif sys.getsizeof(lzma_compressed) < sys.getsizeof(zlib_compressed) and sys.getsizeof(lzma_compressed) < sys.getsizeof(bz2_compressed) and sys.getsizeof(lzma_compressed) < sys.getsizeof(gzip_compressed):
             print('Selected! Name: lzma')
             print('Packing...')
-            open('tmp.pyw','w').write('import lzma;import os;open("'+file+'","wb").write('+'lzma.decompress('+str(lzma.compress(datafile))+'));os.system("'+file+'");os.remove("'+file+'")')
+            open('tmp.pyw','w').write(lzma_compressed)
     else:
         if args.alg == 'lzma':
             print('Packing...')
